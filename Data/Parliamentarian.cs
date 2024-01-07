@@ -6,7 +6,7 @@ public class Parliamentarian
     public string MadeVote;
     private bool _isVotingActive;
     private bool _alreadyVoted;
-    private Parliament _parliament;
+    private readonly Parliament _parliament;
 
     public Parliamentarian(int id, Parliament parliament)
     {
@@ -22,7 +22,7 @@ public class Parliamentarian
     public void Vote()
     {
         if (!_isVotingActive || _alreadyVoted) return;
-        
+
         _alreadyVoted = true;
         if (new Random().Next() % 2 == 0)
         {

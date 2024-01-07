@@ -1,18 +1,14 @@
 <Chart Config="_config" @ref="_chart"></Chart>
 
 @code {
-    [Parameter]
-    public int For { get; set; } = 0;
-    [Parameter]
-    public int Against { get; set; } = 0;
-    [Parameter]
-    public int Abstained { get; set; } = 0;
-    [Parameter]
-    public string Topic { get; set; } = "";
+    [Parameter] public int For { get; set; } = 0;
+    [Parameter] public int Against { get; set; } = 0;
+    [Parameter] public int Abstained { get; set; } = 0;
+    [Parameter] public string Topic { get; set; } = "";
 
     private PieConfig _config = null!;
     private Chart _chart = null!;
-    
+
     protected override void OnInitialized()
     {
         _config = new PieConfig
@@ -28,18 +24,18 @@
             }
         };
 
-        foreach (string voteType in new[] { "YES", "NO", "ABSTAINED" })
+        foreach (var voteType in new[] { "YES", "NO", "ABSTAINED" })
         {
             _config.Data.Labels.Add(voteType);
         }
 
-        PieDataset<int> dataset = new PieDataset<int>(new[] { For, Against, Abstained })
+        var dataset = new PieDataset<int>(new[] { For, Against, Abstained })
         {
             BackgroundColor = new[]
             {
                 ColorUtil.ColorHexString(75, 192, 192),
                 ColorUtil.ColorHexString(255, 99, 132),
-                ColorUtil.ColorHexString(255, 255, 0),
+                ColorUtil.ColorHexString(255, 255, 0)
             }
         };
 

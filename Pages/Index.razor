@@ -33,7 +33,6 @@
 }
 
 
-
 @code{
     private int _numOfParliamentarians;
     private string _topic = default!;
@@ -45,7 +44,7 @@
 
     private void StartVoting()
     {
-        if(_numOfParliamentarians > 0)
+        if (_numOfParliamentarians > 0)
         {
             _parliament = new Parliament(_numOfParliamentarians);
             _votingOpen = true;
@@ -62,4 +61,3 @@
     }
 
 }
-
