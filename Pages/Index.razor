@@ -1,0 +1,65 @@
+﻿@page "/"
+@using parliament_app.Data
+
+<br/>
+<PageTitle>Parliament App</PageTitle>
+
+<h3>Number of parliamentarians</h3>
+<input type="number" @bind="_numOfParliamentarians"/>
+<br/> <br/>
+
+<h3>Topic</h3>
+<input type="text" @bind="_topic"/>
+<br/> <br/>
+
+<Button Color="ButtonColor.Primary" @onclick="StartVoting">Start voting</Button>
+<br/> <br/>
+
+@if (_votingOpen)
+{
+    <div class="d-grid gap-2 d-md-flex">
+        @foreach (var parliamentarian in _parliament!.Parliamentarians)
+        {
+            <Button Color="ButtonColor.Dark" Disabled="@(parliamentarian.MadeVote != "VOTE")" @onclick="@parliamentarian.Vote">@parliamentarian.MadeVote</Button>
+        }
+    </div>
+    <br/>
+    <button class="btn btn-primary" @onclick="FinishVoting">Finish voting</button>
+}
+
+@if (!_votingOpen && _parliament is not null)
+{
+    <SimplePieChart For="_votesFor" Against="_votesAgainst" Abstained="_abstained" Topic="@_topic"></SimplePieChart>
+}
+
+
+
+@code{
+    private int _numOfParliamentarians;
+    private string _topic = default!;
+    private bool _votingOpen;
+    private Parliament? _parliament;
+    private int _votesFor;
+    private int _votesAgainst;
+    private int _abstained;
+
+    private void StartVoting()
+    {
+        if(_numOfParliamentarians > 0)
+        {
+            _parliament = new Parliament(_numOfParliamentarians);
+            _votingOpen = true;
+            _parliament.StartVoting();
+        }
+    }
+
+    private void FinishVoting()
+    {
+        _votingOpen = false;
+        _votesFor = _parliament!.CurrVotesFor;
+        _votesAgainst = _parliament.CurrVotesAgainst;
+        _abstained = _parliament.Parliamentarians.Count - _parliament.CurrVotesAgainst - _parliament.CurrVotesFor;
+    }
+
+}
+
